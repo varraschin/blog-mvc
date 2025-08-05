@@ -1,0 +1,12 @@
+Configurando o GIT
+
+git config --global user.name (nome)
+git config --global user.email (email)
+
+
+Criando um Proejto MVC
+
+dotnet new mvc -o Blog
+
+Executar
+dotnet watch run
