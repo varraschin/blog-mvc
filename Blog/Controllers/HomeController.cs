@@ -7,23 +7,16 @@ namespace Blog.Controllers;
 public class HomeController : Controller
 {
     private readonly ILogger<HomeController> _logger;
+    private List<Categoria> categorias;
+    private List<Postagem> postagens;
 
     public HomeController(ILogger<HomeController> logger)
     {
         _logger = logger;
-    }
-
-    public IActionResult Index()
-    {
-        Categoria tecnologia = new ();
+        /* Categoria tecnologia = new ();
         tecnologia.Id = 1;
-        tecnologia.Nome = "Tecnologia";
-        Categoria ia = new()
-        {
-            Id = 2,
-            Nome = "IA"
-        };
-
+        tecnologia.Nome = "Tecnologia"; */
+        
         Categoria webnovel = new ()
         {
             Id = 3,
@@ -41,24 +34,21 @@ public class HomeController : Controller
             Id = 5,
             Nome = "Hq"
         };
+        
         Categoria serie = new ()
         {
             Id = 6,
             Nome = "Série"
         };
+
+        Categoria curiosidades = new ()
+        {
+            Id = 7,
+            Nome = "Curiosidades"
+        };
+
         
-        List<Postagem> postagens = [
-            new () {
-                Id = 1,
-                Nome = "Saiu o ChatGPT 5",
-                CategoriaId = 2,
-                Categoria = ia,
-                DataPostagem = DateTime.Parse("08/08/2025"),
-                Descricao = "  dsf g~kfdgoijads ao",
-                Texto = " sdlkjslk fklsdj",
-                Thumbnail = "/img/1.png",
-                Foto = "/img/1.png"
-            },
+        postagens = [
             new () {
                 Id = 3,
                 Nome = "Lord of Mysteries",
@@ -99,18 +89,28 @@ public class HomeController : Controller
                 Categoria = serie,
                 DataPostagem = DateTime.Parse("13/08/2025"),
                 Descricao = "Cobra Kai é uma série de televisão americana.",
-                Texto = "Cobra Kai é uma série que se passa mais de 30 anos após os eventos do filme Karatê Kid, focando na rivalidade entre Daniel LaRusso e Johnny Lawrence. Johnny, buscando redenção, reabre o dojo Cobra Kai, o que reacende sua antiga rivalidade com Daniel, que agora é um empresário de sucesso.",
+                Texto = "Cobra Kai é uma série que se passa mais de 30 anos após os eventos do filme Karatê Kid, focando na rivalidade entre<br> Daniel LaRusso e Johnny Lawrence. Johnny, buscando redenção, reabre o dojo Cobra Kai, o que reacende sua antiga rivalidade com Daniel, que agora é um empresário de sucesso.",
                 Thumbnail = "/img/6.png",
                 Foto = "/img/6.png"
             },
 
         ];
+
+    }
+
+    public IActionResult Index()
+    {
         return View(postagens);
     }
 
     public IActionResult Postagem(int id)
     {
-        return View();
+        var postagem = postagens
+            .Where (p => p.Id == id)
+            .SingleOrDefault();
+        if (postagem == null)
+            return NotFound();
+        return View(postagem);
     }
 
     public IActionResult Privacy()
